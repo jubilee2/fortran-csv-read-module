@@ -40,15 +40,24 @@
   procedure :: tokenize => tokenize_csv_line
   procedure :: read_line_from_file
 
-  generic,public :: get => get_real_column, get_integer_column, get_logical_column
-  generic,public :: get_by_name => get_real_column_by_name, get_integer_column_by_name, get_logical_column_by_name
+  generic,public :: get => get_real_column, &
+    get_double_column, &
+    get_integer_column, &
+    get_logical_column
+
+  generic,public :: get_by_name => get_real_column_by_name, &
+    get_double_column_by_name, &
+    get_integer_column_by_name, &
+    get_logical_column_by_name
 
   procedure :: get_csv_string_column
   procedure :: get_header_icol
   procedure :: get_real_column
+  procedure :: get_double_column
   procedure :: get_integer_column
   procedure :: get_logical_column
   procedure :: get_real_column_by_name
+  procedure :: get_double_column_by_name
   procedure :: get_integer_column_by_name
   procedure :: get_logical_column_by_name
 
@@ -248,7 +257,7 @@
 
   integer :: i          !! counter
   integer :: len_token  !! length of the token
-  integer :: i2         !! index
+  integer :: i1,i2      !! index
   character(len=:),allocatable :: string
 
   len_token = len(token)  ! length of the token
@@ -272,7 +281,9 @@
     i2 = i-1
     vals = [vals, csv_string(string(1:i2))]
 
-    string = string((i+len_token):)
+    i1 = i+len_token
+    i2=len(string)
+    string = string(i1:i2)
   end do
   end subroutine split
 
@@ -284,9 +295,10 @@
   logical,intent(out) :: status_ok
 
   integer :: i !! column counter
+  status_ok = .false.
+  r=0
 
   if (allocated(me%header)) then
-
     do i=1,me%n_cols
       if (me%header(i)%str == headeName) then
         status_ok = .true.
@@ -294,11 +306,13 @@
         return
       end if
     end do
+
+    if(.not. status_ok) write(error_unit,'(A)') &
+      'Error: no column name of '//trim(headeName)
+
   else
     write(error_unit,'(A)') 'Error: no header in class.'
   end if
-  write(error_unit,'(A)') 'Error: no header by name of '//trim(headeName)
-  status_ok = .false.
   end subroutine get_header_icol
 
   subroutine get_csv_string_column(me,icol,r,status_ok)
@@ -349,7 +363,7 @@
   end if
 
   allocate(rTmp(me%n_rows))
-  rTmp=0.0d0
+  rTmp=0.0e0
 
   do i=1,me%n_rows  ! row loop
     call to_real(columnData(i)%str,rTmp(i),status_ok)
@@ -363,6 +377,44 @@
   allocate(r(me%n_rows))
   r=rTmp
   end subroutine get_real_column
+
+  subroutine get_double_column(me,icol,r,status_ok)
+  implicit none
+  class(csv_file),intent(inout) :: me
+  integer,intent(in) :: icol  !! column number
+  real(8),dimension(:),allocatable,intent(out) :: r
+  logical,intent(out) :: status_ok
+
+  real(8),dimension(:),allocatable :: rTmp
+
+  type(csv_string),dimension(:),allocatable :: columnData
+  integer :: i
+
+  call me%get_csv_string_column(icol,columnData,status_ok)
+  if(.not. status_ok) return
+
+  if (allocated(r)) then
+    status_ok = .false.
+    write(error_unit,'(A)') &
+      'Error get_double_column allready allocated result: '
+    return
+  end if
+
+  allocate(rTmp(me%n_rows))
+  rTmp=0.0d0
+
+  do i=1,me%n_rows  ! row loop
+    call to_double(columnData(i)%str,rTmp(i),status_ok)
+    if (.not. status_ok) then
+      !deallocate(r)
+      write(error_unit,'(A)') &
+        'Error converting string to double: '//trim(me%csv_data(i,icol)%str)
+      return
+    end if
+  end do
+  allocate(r(me%n_rows))
+  r=rTmp
+  end subroutine get_double_column
 
   subroutine get_integer_column(me,icol,r,status_ok)
   implicit none
@@ -425,7 +477,7 @@
   end if
 
   allocate(rTmp(me%n_rows))
-  rTmp=0
+  rTmp = .false.
 
   do i=1,me%n_rows  ! row loop
     call to_logical(columnData(i)%str,rTmp(i),status_ok)
@@ -453,6 +505,20 @@
   if(.not. status_ok) return
   call me%get_real_column(icol,r,status_ok)
   end subroutine get_real_column_by_name
+
+  subroutine get_double_column_by_name(me,icolName,r,status_ok)
+  implicit none
+  class(csv_file),intent(inout) :: me
+  character(len=*),intent(in) :: icolName
+  real(8),dimension(:),allocatable,intent(out) :: r
+  logical,intent(out) :: status_ok
+
+  integer :: icol  !! column number
+
+  call me%get_header_icol(icolName,icol,status_ok)
+  if(.not. status_ok) return
+  call me%get_double_column(icol,r,status_ok)
+  end subroutine get_double_column_by_name
 
   subroutine get_integer_column_by_name(me,icolName,r,status_ok)
   implicit none

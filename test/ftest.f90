@@ -22,7 +22,7 @@
   logical :: status_ok
   integer :: i
 
-  call f%read('csv\test.csv', header_row=1, status_ok=status_ok)
+  call f%read('csv/test.csv', header_row=1, status_ok=status_ok)
 
   call f%get_by_name('id',a,status_ok)
   print *, a

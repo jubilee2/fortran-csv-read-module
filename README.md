@@ -1,8 +1,8 @@
 # fortran-csv-read-module
 This project base on https://github.com/jacobwilliams/fortran-csv-module and just keep read csv 
 
-## how to use
-1. import libary
+## Usage
+1. Import module
 ```fortran
 use csv_module
 ```
@@ -11,7 +11,7 @@ use csv_module
 type(csv_file) :: f
 ```
 3. Declare variables
-currently support arrary of real, integer and logical
+currently support arrary of real, double, integer and logical
 ```fortran
   real,dimension(:),allocatable :: x
   integer,dimension(:),allocatable :: y
@@ -25,12 +25,9 @@ currently no skip_row function
 call f%read('csv\test.csv', header_row=1, status_ok=status_ok)
 if(.not. status_ok) stop 
 ```
-5.read csv column by column index
+5. read csv column by column index or name
 ```fortran
 call f%get(3,x,status_ok)
-```
-read csv column by column name
-```fortran
 call f%get_by_name('id',y,status_ok)
 ```
 
