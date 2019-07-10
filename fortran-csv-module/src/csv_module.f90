@@ -139,8 +139,8 @@
         me%header = row_data
       else
         irow = irow + 1  !! row counter in data array
-        if(n_cols > size(row_data)) then
-          write(error_unit,'(A)') 'Error row data length < header length of file: '//trim(filename)
+        if(n_cols /= size(row_data)) then
+          write(error_unit,'(A)') 'Error row data length <> header length of file: '//trim(filename)
           status_ok = .false.
           return
         end if
