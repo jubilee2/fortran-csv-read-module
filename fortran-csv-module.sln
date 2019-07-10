@@ -5,16 +5,31 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "fortran-csv-module", "fortran-csv-module\fortran-csv-module.vfproj", "{8D7EE3F8-E3EC-4651-BF53-5C1AC2B89FC5}"
 EndProject
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "test", "test\test.vfproj", "{38C34A1A-2ED0-44A3-9F18-E5D0325A0BFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D7EE3F8-E3EC-4651-BF53-5C1AC2B89FC5}.Debug|x64.ActiveCfg = Debug|x64
+		{8D7EE3F8-E3EC-4651-BF53-5C1AC2B89FC5}.Debug|x64.Build.0 = Debug|x64
 		{8D7EE3F8-E3EC-4651-BF53-5C1AC2B89FC5}.Debug|x86.ActiveCfg = Debug|Win32
 		{8D7EE3F8-E3EC-4651-BF53-5C1AC2B89FC5}.Debug|x86.Build.0 = Debug|Win32
+		{8D7EE3F8-E3EC-4651-BF53-5C1AC2B89FC5}.Release|x64.ActiveCfg = Release|x64
+		{8D7EE3F8-E3EC-4651-BF53-5C1AC2B89FC5}.Release|x64.Build.0 = Release|x64
 		{8D7EE3F8-E3EC-4651-BF53-5C1AC2B89FC5}.Release|x86.ActiveCfg = Release|Win32
 		{8D7EE3F8-E3EC-4651-BF53-5C1AC2B89FC5}.Release|x86.Build.0 = Release|Win32
+		{38C34A1A-2ED0-44A3-9F18-E5D0325A0BFA}.Debug|x64.ActiveCfg = Debug|x64
+		{38C34A1A-2ED0-44A3-9F18-E5D0325A0BFA}.Debug|x64.Build.0 = Debug|x64
+		{38C34A1A-2ED0-44A3-9F18-E5D0325A0BFA}.Debug|x86.ActiveCfg = Debug|Win32
+		{38C34A1A-2ED0-44A3-9F18-E5D0325A0BFA}.Debug|x86.Build.0 = Debug|Win32
+		{38C34A1A-2ED0-44A3-9F18-E5D0325A0BFA}.Release|x64.ActiveCfg = Release|Win32
+		{38C34A1A-2ED0-44A3-9F18-E5D0325A0BFA}.Release|x86.ActiveCfg = Release|Win32
+		{38C34A1A-2ED0-44A3-9F18-E5D0325A0BFA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
