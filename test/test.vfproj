@@ -50,6 +50,6 @@
 		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
 		<File RelativePath="..\fortran-csv-module\src\csv_module.f90"/>
 		<File RelativePath="..\fortran-csv-module\src\csv_util.F90"/>
-		<File RelativePath=".\test.f90"/></Filter>
+		<File RelativePath=".\ftest.f90"/></Filter>
 		<File RelativePath=".\ReadMe.txt"/></Files>
 	<Globals/></VisualStudioProject>
